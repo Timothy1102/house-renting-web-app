@@ -1,0 +1,2 @@
+- install [postgresql](https://postgresapp.com/downloads.html)
+- 
