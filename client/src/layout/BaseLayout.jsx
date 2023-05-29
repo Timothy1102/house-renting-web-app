@@ -1,14 +1,34 @@
-import React from "react";
+import { Breadcrumb, Layout } from "antd";
+const { Content } = Layout;
+import { PublicHeader } from "./Header/Header";
+import { PublicFooter } from "./Footer/Footer";
 
-export const BaseLayout = ({ children }) => {
-    return (
-        <>
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
-            <h1>Header</h1>
-            {children}
-            <h1>Footer</h1>
-        </>
-    );
+const BaseLayout = ({content}) => {
+
+	return (
+		<Layout className="layout">
+            <PublicHeader/>
+
+			<Content
+				style={{
+					padding: "0 50px",
+				}}
+			>
+				<Breadcrumb
+					style={{
+						margin: "16px 0",
+					}}
+				>
+					<Breadcrumb.Item>Home</Breadcrumb.Item>
+					<Breadcrumb.Item>List</Breadcrumb.Item>
+					<Breadcrumb.Item>App</Breadcrumb.Item>
+				</Breadcrumb>
+				{content}
+			</Content>
+
+			<PublicFooter/>
+		</Layout>
+	);
 };
+
+export default BaseLayout;
