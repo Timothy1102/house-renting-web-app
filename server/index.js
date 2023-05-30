@@ -1,23 +1,32 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({path: path.join(process.cwd(), '../.env')});
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db');
+const database = require('./db');
+const authRouter = require('./routes/auth.route');
+const houseOwnerRoute = require('./routes/house-owner.route');
+const testRouter = require('./routes/test.route');
 
 const app = express();
-const port = 5005;
+const port = process.env.SERVER_PORT;
 
 //middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); //to allow cross-origin requests
+app.use(express.json()); //to access req.body
+app.use(authRouter); //to access auth routes
+app.use(houseOwnerRoute); //to access test routes
+app.use(testRouter); //to access test routes
 
 
 // Routes
-// Create a new row in the test_table
+// Create a new row in the "user" table
 app.post('/api/v1/test', async (req, res) => {
     try {
         console.log('body: ', req.body);
         const { name, age } = req.body;
-        const newRow = await pool.query(
-            'INSERT INTO test_table (name, age) VALUES($1, $2) RETURNING *',
+        const newRow = await database.query(
+            'INSERT INTO "user" (name, age) VALUES($1, $2) RETURNING *',
             [name, age]
         );
         res.json(newRow.rows[0]);
@@ -26,34 +35,35 @@ app.post('/api/v1/test', async (req, res) => {
     }
 });
 
-// Get all rows from the test_table
+// Get all rows from the "user" table
 app.get('/api/v1/test', async (req, res) => {
     try {
-        const allRows = await pool.query('SELECT * FROM test_table');
+        const allRows = await database.query('SELECT * FROM users');
         res.json(allRows.rows);
+        console.log("🚀 ~ file: index.js:36 ~ app.get ~ allRows:", allRows.rows);
     } catch (err) {
         console.error(err.message);
     }
 });
 
-// Get a single row from the test_table
+// Get a single row from the "user" table
 app.get('/api/v1/test/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const row = await pool.query('SELECT * FROM test_table WHERE id = $1', [id]);
+        const row = await database.query('SELECT * FROM "user" WHERE id = $1', [id]);
         res.json(row.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
 });
 
-// Update a row in the test_table
+// Update a row in the "user" table
 app.put('/api/v1/test/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { name, age } = req.body;
-        const updateRow = await pool.query(
-            'UPDATE test_table SET name = $1, age = $2 WHERE id = $3',
+        const updateRow = await database.query(
+            'UPDATE "user" SET name = $1, age = $2 WHERE id = $3',
             [name, age, id]
         );
         res.json('Row was updated!');
@@ -62,11 +72,11 @@ app.put('/api/v1/test/:id', async (req, res) => {
     }
 });
 
-// Delete a row from the test_table
+// Delete a row from the "user"
 app.delete('/api/v1/test/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const deleteRow = await pool.query('DELETE FROM test_table WHERE id = $1', [id]);
+        const deleteRow = await database.query('DELETE FROM "user" WHERE id = $1', [id]);
         res.json('Row was deleted!');
     } catch (err) {
         console.error(err.message);
