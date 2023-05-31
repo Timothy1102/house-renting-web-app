@@ -7,17 +7,20 @@ import { Home } from "./page/HomePage.jsx";
 import LoginPage from "./page/LoginPage.jsx";
 import RegisterPage from "./page/RegisterPage.jsx";
 import ROUTES from "./provider/routes.provider.js";
+import { UserProvider } from "./contexts/UserProvider.jsx";
 
 function App() {
 
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path={ROUTES.HOME} element={<Home />} />
-				<Route path={ROUTES.LOGIN} element={<LoginPage/>} />
-				<Route path={ROUTES.REGISTER} element={<RegisterPage/>} />
-			</Routes>
-		</BrowserRouter>
+		<UserProvider>
+			<BrowserRouter>
+				<Routes>
+					<Route path={ROUTES.HOME} element={<Home />} />
+					<Route path={ROUTES.LOGIN} element={<LoginPage/>} />
+					<Route path={ROUTES.REGISTER} element={<RegisterPage/>} />
+				</Routes>
+			</BrowserRouter>
+		</UserProvider>
 	);
 }
 

@@ -23,7 +23,6 @@ app.use(testRouter); //to access test routes
 // Create a new row in the "user" table
 app.post('/api/v1/test', async (req, res) => {
     try {
-        console.log('body: ', req.body);
         const { name, age } = req.body;
         const newRow = await database.query(
             'INSERT INTO "user" (name, age) VALUES($1, $2) RETURNING *',

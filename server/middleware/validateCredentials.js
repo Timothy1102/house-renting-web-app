@@ -11,7 +11,6 @@ const validateCredentials = (req, res, next) => {
     }
   
     if (req.path === "/api/v1/register") {
-      console.log(!email.length);
       if (![email, userName, password].every(Boolean)) {
         return res.json("Missing Credentials");
       } else if (!validEmail(email)) {

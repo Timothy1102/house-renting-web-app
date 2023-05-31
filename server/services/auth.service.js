@@ -25,11 +25,16 @@ async function encryptPassword(password) {
 // The token is generated using the user's id, name, and email.
 // The token is signed using the JWT secret and expires after the JWT expires in time.
 // The JWT is then returned to the caller.
-function generateJwtToken(userId) {
+function generateJwtToken(userId, role, name, email) {
     const jwtSecret = process.env.JWT_SECRET;
     const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
     const payload = {
-        user: userId
+        user: {
+            userId: userId,
+            role: role,
+            name: name,
+            email: email
+        }
     };
 
     return jwt.sign(payload, jwtSecret, { expiresIn: jwtExpiresIn });
