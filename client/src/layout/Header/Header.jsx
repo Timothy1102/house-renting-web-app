@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { Layout, Menu } from "antd";
 const { Header } = Layout;
+import NAVS from "../../provider/header-navs.provider";
 
 export const PublicHeader = () => {
+	const [current, setCurrent] = useState(1);
+	const onClick = (e) => {
+		setCurrent(e.key);
+	};
+
 	return (
 		<Header
 			style={{
@@ -13,12 +20,17 @@ export const PublicHeader = () => {
 			<Menu
 				theme="dark"
 				mode="horizontal"
-				defaultSelectedKeys={["2"]}
-				items={new Array(4).fill(null).map((_, index) => {
-					const key = index + 1;
+				onClick={onClick}
+				selectedKeys={[current]}
+				items={NAVS.map((nav, index) => {
 					return {
-						key,
-						label: `nav ${key}`,
+						key: index,
+						label: (
+							<a href={nav.path}>
+								{nav.name}
+							</a>
+						),
+						path: nav.path,
 					};
 				})}
 			/>

@@ -48,6 +48,9 @@ class AuthController {
         }
     }
 
+    /**
+     * login user
+     */
     async login(req, res) {
         try {
             // 1. destructure the req.body

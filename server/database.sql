@@ -1,4 +1,4 @@
--- command examples
+-- database command examples
 
 -- create uuid extension to generate uuid
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
