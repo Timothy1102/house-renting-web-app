@@ -1,10 +1,31 @@
-import { Form, Input, Button } from "antd";
+import { useContext, useState } from "react";
+import { Form, Input, Button, Alert } from "antd";
 import BaseLayout from "../layout/BaseLayout";
+import { UserContext } from "../contexts/UserProvider";
+import { useNavigate } from 'react-router-dom';
+import ROUTES from "../provider/routes.provider";
+import { register } from "../services/auth.service";
 
 const RegisterPage = () => {
-	const onFinish = (values) => {
-		console.log("Received values:", values);
-		// Perform login logic here
+	const [showAlert, setShowAlert] = useState(false);
+	const {isLoggedIn} = useContext(UserContext);
+	const navigate = useNavigate();
+
+	// redirect to home page if user is already logged in
+	if (isLoggedIn) {
+		navigate(ROUTES.HOME);
+		return null;
+	}
+
+	const onFinish = async (values) => {
+		await register({
+			role: 'landlord', //default role
+			name: values.username,
+			email: values.email,
+			password: values.password
+		});
+		setShowAlert(true);
+		window.location.href = ROUTES.HOME;
 	};
 
 	return (
@@ -61,6 +82,8 @@ const RegisterPage = () => {
 							</Button>
 						</Form.Item>
 					</Form>
+
+					{showAlert ? <Alert message="🚀 Đăng kí thành công!" type="success" /> : null}
 				</div>
 			}
 		/>

@@ -1,11 +1,15 @@
-import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import BaseLayout from "../layout/BaseLayout";
+import { login } from "../services/auth.service";
+import ROUTES from "../provider/routes.provider";
 
 const LoginPage = () => {
-	const onFinish = (values) => {
-		console.log("Received values:", values);
-		// Perform login logic here
+	const onFinish = async (values) => {
+		await login({
+			email: values.email,
+			password: values.password
+		});
+		window.location.href = ROUTES.HOME;
 	};
 
 	return (
@@ -20,15 +24,15 @@ const LoginPage = () => {
 					>
 						<h2 className="text-2xl font-bold mb-6">Login</h2>
 						<Form.Item
-							name="username"
+							name="email"
 							rules={[
 								{
 									required: true,
-									message: "Please enter your username!",
+									message: "Please enter your email!",
 								},
 							]}
 						>
-							<Input placeholder="Username" />
+							<Input placeholder="Email" />
 						</Form.Item>
 						<Form.Item
 							name="password"

@@ -9,10 +9,6 @@ const NAVS = [
         path: ROUTES.REGISTER,
         name: 'Register',
     },
-    {
-        path: ROUTES.LOGIN,
-        name: 'Login',
-    },
 ];
 
 export default NAVS;

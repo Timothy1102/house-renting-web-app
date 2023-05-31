@@ -1,11 +1,38 @@
 import { axiosService } from "./axios.service";
 
+// authenticate user by jwt token stored in browser local storage if it exists
 export const isAuthenticated = async () =>
 	axiosService({
 		url: "/auth/is-authenticated",
 		method: "GET",
 		headers: {
-			token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6IjgwZGUyYTRkLWRmMDEtNGE4ZS04YjgxLTcyMzk4ZjViODQ3NiIsInJvbGUiOiJsYW5kbG9yZCIsIm5hbWUiOiJ0ZXN0MSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIn0sImlhdCI6MTY4NTU0NzMwNywiZXhwIjoxNjg1NTUwOTA3fQ.g_7pcpjtX3sw3WwdmFFK7ETVvNRxDYnELt8EzEB2-YM",
-			// 'token': localStorage.getItem('token')
+			token: localStorage.getItem("token"),
 		},
 	});
+
+// register new user and store jwt token in browser local storage
+export const register = async (payload) => {
+	const response = await axiosService({
+		url: "/auth/register",
+		method: "POST",
+		data: payload
+	});
+	// store jwt token to browser local storage
+	localStorage.setItem("token", response.data.jwtToken);
+}
+
+// login user and store jwt token in browser local storag
+export const login = async (payload) => {
+	const response = await axiosService({
+		url: "/auth/login",
+		method: "POST",
+		data: payload
+	});
+	// store jwt token to browser local storage
+	localStorage.setItem("token", response.data.jwtToken);
+}
+
+export const logout = () => {
+	// remove jwt token from browser local storage
+	localStorage.removeItem('token');
+}
