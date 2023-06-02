@@ -1,4 +1,4 @@
-const database = require('../db');
+const { User } = require('../sequelize/models');
 
 class UserController {
     /**
@@ -6,10 +6,11 @@ class UserController {
      */
     async getUsers(req, res) {
         try {
-            const allRows = await database.query('SELECT * FROM users');
-            res.json(allRows.rows);
+            const users =  await User.findAll();
+            res.json(users);
         } catch (err) {
             console.error(err.message);
+            return res.status(400).send({ status: 400, error: err });
         }
     }
 

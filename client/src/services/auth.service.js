@@ -21,7 +21,7 @@ export const register = async (payload) => {
 	localStorage.setItem("token", response.data.jwtToken);
 }
 
-// login user and store jwt token in browser local storag
+// login user and store jwt token in browser local storage
 export const login = async (payload) => {
 	const response = await axiosService({
 		url: "/auth/login",
