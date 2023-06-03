@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config({path: path.join(process.cwd(), '../.env')});
 const express = require('express');
 const cors = require('cors');
-const database = require('./db');
 const authRouter = require('./routes/auth.route');
 const houseOwnerRoute = require('./routes/house-owner.route');
 const testRouter = require('./routes/test.route');
@@ -22,9 +21,8 @@ app.use(testRouter); //to access test routes
 
 const connectDatabase = async () => {
     try {
-        console.log('Checking database connection status...');
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+        console.log('Connection to database has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
         process.exit(1);

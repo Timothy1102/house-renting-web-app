@@ -1,4 +1,3 @@
-const database = require("../db");
 const bcrypt = require("bcrypt");
 const {
 	encryptPassword,

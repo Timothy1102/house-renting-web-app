@@ -12,11 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    // hide password when returning user to APIs
+    toJSON() {
+      return { ...this.get(), password: undefined };
+    }
   }
   User.init({
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
       primaryKey: true,
     },
     role: DataTypes.STRING,
