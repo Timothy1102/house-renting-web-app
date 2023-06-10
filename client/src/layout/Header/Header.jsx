@@ -45,7 +45,7 @@ export const PublicHeader = () => {
 				})}
 			/>
 			<Button onClick={handleButtonOnclick} type="primary" className="bg-[#1677ff]">
-				{isLoggedIn ? 'Logout' : 'Login'}
+				{isLoggedIn ? 'Đăng xuất' : 'Đăng nhập'}
 			</Button>
 		</Header>
 	);

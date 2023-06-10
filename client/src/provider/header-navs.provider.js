@@ -3,11 +3,15 @@ import ROUTES from "./routes.provider";
 const NAVS = [
     {
         path: ROUTES.HOME,
-        name: 'Home',
+        name: 'Trang chủ',
+    },
+    {
+        path: ROUTES.HOUSE,
+        name: 'Quản lí nhà',
     },
     {
         path: ROUTES.REGISTER,
-        name: 'Register',
+        name: 'Đăng kí',
     },
 ];
 
