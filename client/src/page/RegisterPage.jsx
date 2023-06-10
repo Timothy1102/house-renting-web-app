@@ -81,6 +81,10 @@ const RegisterPage = () => {
 								Register
 							</Button>
 						</Form.Item>
+
+						<div>
+							<a href="http://localhost:3332/login">Đăng nhập</a>
+						</div>
 					</Form>
 
 					{showAlert ? <Alert message="🚀 Đăng kí thành công!" type="success" /> : null}

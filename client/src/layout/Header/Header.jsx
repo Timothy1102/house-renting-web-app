@@ -37,6 +37,9 @@ export const PublicHeader = () => {
 				onClick={handleMenuOnClick}
 				selectedKeys={[current]}
 				items={NAVS.map((nav, index) => {
+					if (nav.requireAuth && !isLoggedIn) {
+						return;
+					}
 					return {
 						key: index,
 						label: <a href={nav.path}>{nav.name}</a>,

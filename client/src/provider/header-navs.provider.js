@@ -4,14 +4,12 @@ const NAVS = [
     {
         path: ROUTES.HOME,
         name: 'Trang chủ',
+        requireAuth: false,
     },
     {
         path: ROUTES.HOUSE,
         name: 'Quản lí nhà',
-    },
-    {
-        path: ROUTES.REGISTER,
-        name: 'Đăng kí',
+        requireAuth: true,
     },
 ];
 

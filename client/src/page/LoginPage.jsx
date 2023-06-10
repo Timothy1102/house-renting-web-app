@@ -57,6 +57,10 @@ const LoginPage = () => {
 								Log in
 							</Button>
 						</Form.Item>
+
+						<div>
+							<a href="http://localhost:3332/register">Đăng kí</a>
+						</div>
 					</Form>
 				</div>
 			}
