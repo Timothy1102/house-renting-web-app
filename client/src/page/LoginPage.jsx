@@ -1,21 +1,35 @@
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import BaseLayout from "../layout/BaseLayout";
 import { login } from "../services/auth.service";
 import ROUTES from "../provider/routes.provider";
 
 const LoginPage = () => {
-	const onFinish = async (values) => {
-		await login({
-			email: values.email,
-			password: values.password
+	const [messageApi, contextHolder] = message.useMessage();
+
+	const error = (msg) => {
+		messageApi.open({
+			type: "error",
+			content: msg,
 		});
-		window.location.href = ROUTES.HOME;
+	};
+
+	const onFinish = async (values) => {
+		try {
+			await login({
+				email: values.email,
+				password: values.password
+			});
+			window.location.href = ROUTES.HOME;
+		} catch (err) {
+			error(err.response.data);
+		}
 	};
 
 	return (
 		<BaseLayout
 			content={
 				<div className="flex justify-center items-center h-screen">
+					{contextHolder}
 					<Form
 						name="login-form"
 						initialValues={{ remember: true }}

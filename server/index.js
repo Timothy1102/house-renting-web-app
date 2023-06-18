@@ -4,6 +4,7 @@ dotenv.config({path: path.join(process.cwd(), '../.env')});
 const express = require('express');
 const cors = require('cors');
 const authRouter = require('./routes/auth.route');
+const houseRouter = require('./routes/house.route');
 const houseOwnerRoute = require('./routes/house-owner.route');
 const testRouter = require('./routes/test.route');
 const { sequelize } = require('./sequelize/models');
@@ -16,6 +17,7 @@ const port = process.env.SERVER_PORT;
 app.use(cors()); //to allow cross-origin requests
 app.use(express.json()); //to access req.body
 app.use(authRouter); //to access auth routes
+app.use(houseRouter); //to access auth routes
 app.use(houseOwnerRoute); //to access test routes
 app.use(testRouter); //to access test routes
 

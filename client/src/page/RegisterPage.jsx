@@ -1,15 +1,23 @@
-import { useContext, useState } from "react";
-import { Form, Input, Button, Alert } from "antd";
+import { useContext } from "react";
+import { Form, Input, Button, message } from "antd";
 import BaseLayout from "../layout/BaseLayout";
 import { UserContext } from "../contexts/UserProvider";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import ROUTES from "../provider/routes.provider";
+import USER_ROLE from "../provider/user-roles.provider";
 import { register } from "../services/auth.service";
 
 const RegisterPage = () => {
-	const [showAlert, setShowAlert] = useState(false);
-	const {isLoggedIn} = useContext(UserContext);
+	const { isLoggedIn } = useContext(UserContext);
 	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+
+	const showErrorPopup = (msg) => {
+		messageApi.open({
+			type: "error",
+			content: msg,
+		});
+	};
 
 	// redirect to home page if user is already logged in
 	if (isLoggedIn) {
@@ -18,20 +26,24 @@ const RegisterPage = () => {
 	}
 
 	const onFinish = async (values) => {
-		await register({
-			role: 'landlord', //default role
-			name: values.username,
-			email: values.email,
-			password: values.password
-		});
-		setShowAlert(true);
-		window.location.href = ROUTES.HOME;
+		try {
+			await register({
+				role: USER_ROLE.LANDLORD, //default role
+				name: values.username,
+				email: values.email,
+				password: values.password,
+			});
+			window.location.href = ROUTES.HOME;
+		} catch (error) {
+			showErrorPopup(error.response.data.error.errors[0].type)
+		}
 	};
 
 	return (
 		<BaseLayout
 			content={
 				<div className="flex justify-center items-center h-screen">
+					{contextHolder}
 					<Form
 						name="register-form"
 						initialValues={{ remember: true }}
@@ -86,8 +98,6 @@ const RegisterPage = () => {
 							<a href="http://localhost:3332/login">Đăng nhập</a>
 						</div>
 					</Form>
-
-					{showAlert ? <Alert message="🚀 Đăng kí thành công!" type="success" /> : null}
 				</div>
 			}
 		/>

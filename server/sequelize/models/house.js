@@ -3,51 +3,39 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class House extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({House}) {
+    static associate({User}) {
       // define association here
-      this.hasMany(House, {foreignKey: 'userId'})
-    }
-
-    // hide password when returning user to APIs
-    toJSON() {
-      return { ...this.get(), password: undefined };
+      this.belongsTo(User, {foreignKey: 'userId'});
     }
   }
-  User.init({
+  House.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
     },
-    role: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        isIn: [['chủ nhà', 'người thuê']], //only 'chủ nhà' or 'người thuê' are accepted
-      }
-    },
-    name: {
+    title: {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    email: {
+    address: {
       allowNull: false,
       type: DataTypes.STRING,
-      unique: true,
-      validate: {
-        isEmail: true,
-      }
     },
-    password: {
+    numberOfRooms: {
       allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+    },
+    userId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
     },
     createdAt: {
       allowNull: false,
@@ -61,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'House',
   });
-  return User;
+  return House;
 };
