@@ -4,6 +4,7 @@ import { Badge, Dropdown, Space, Table, Button } from "antd";
 import { getHouseOfUser } from "../services/house.service";
 import { useEffect, useState } from "react";
 import { CreateHouseModal } from '../components/CreateHouseModal';
+import { Link } from 'react-router-dom';
 
 const items = [
 	{
@@ -135,7 +136,7 @@ export const LandlordHousePage = () => {
 			for (let i = 0; i < housesOfUser.length; i++) {
 				data.push({
 					key: i.toString(),
-					houseName: housesOfUser[i]?.title,
+					houseName: <Link to={`/house/${housesOfUser[i]?.id}`} className="text-blue-500">{housesOfUser[i]?.title}</Link>,
 					numberOfRooms: housesOfUser[i]?.numberOfRooms,
 					numberOfAvailableRooms: 2,
 					address: housesOfUser[i]?.address,
@@ -151,7 +152,7 @@ export const LandlordHousePage = () => {
 	return (
 		<BaseLayout
 			content={
-				<>
+				<div className="h-screen">
 					<div className="flex justify-end items-center mt-10">
 						<Button type="primary" className="bg-[#1677ff]" onClick={showModal}>Thêm nhà</Button>
 					</div>
@@ -171,7 +172,7 @@ export const LandlordHousePage = () => {
 						}}
 						dataSource={houses}
 					/>
-				</>
+				</div>
 			}
 		/>
 	);

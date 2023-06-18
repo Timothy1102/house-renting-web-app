@@ -28,6 +28,7 @@ export const PublicHeader = () => {
 			style={{
 				display: "flex",
 				alignItems: "center",
+				// width: '100%',
 			}}
 		>
 			<div className="demo-logo" />
