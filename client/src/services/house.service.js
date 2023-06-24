@@ -49,3 +49,15 @@ export const createRoom = async (payload) => {
 	});
 	console.log("🚀 ~ file: house.service.js:38 ~ createRoom ~ response:", response)
 }
+
+export const deleteRoom = async (id) => {
+	const response = await axiosService({
+		url: "/house/room",
+		method: "DELETE",
+		headers: {
+			token: localStorage.getItem("token"),
+		},
+		data: {roomId: id}
+	});
+	console.log("🚀 ~ file: house.service.js:54 ~ deleteRoom ~ response:", response)
+}

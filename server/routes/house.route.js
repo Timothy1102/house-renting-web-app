@@ -8,5 +8,6 @@ houseRouter.get('/api/v1/house', verifyJwtToken, houseController.getHouses); //g
 houseRouter.post('/api/v1/house', verifyJwtToken, houseController.createHouse); //create a new house
 houseRouter.get('/api/v1/house/room', verifyJwtToken, houseController.getRooms); //get rooms belong to a house
 houseRouter.post('/api/v1/house/room', verifyJwtToken, houseController.createRoom); //create a new room
+houseRouter.delete('/api/v1/house/room', verifyJwtToken, houseController.deleteRoom); //create a new room
 
 module.exports = houseRouter;

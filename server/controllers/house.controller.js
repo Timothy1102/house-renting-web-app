@@ -15,7 +15,7 @@ class HouseController {
     }
 
     /**
-     * create a new house
+     * Create a new house
      */
     async createHouse(req, res) {
         try {
@@ -45,7 +45,7 @@ class HouseController {
     }
 
     /**
-     * create a new room
+     * Create a new room
      */
     async createRoom(req, res) {
         try {
@@ -53,6 +53,20 @@ class HouseController {
             const house = await House.findByPk(req.body.houseId);
             await house.addRoom(room);
             res.json(room);
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send({ status: 400, error: err });
+        }
+    }
+
+    /**
+     * Delete a room
+     */
+    async deleteRoom(req, res) {
+        try {
+            const room = await Room.findByPk(req.body.roomId);
+            await room.destroy();
+            res.json({ msg: 'Room deleted' });
         } catch (err) {
             console.error(err.message);
             return res.status(400).send({ status: 400, error: err });
