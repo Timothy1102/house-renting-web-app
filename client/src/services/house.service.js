@@ -26,9 +26,9 @@ export const createHouse = async (payload) => {
 }
 
 // get list of houses for user
-export const getRoomsOfHouse = async () => { // TODO: pass houseId as param
+export const getRoomsOfHouse = async (houseId) => { // TODO: pass houseId as param
 	const rooms = await axiosService({
-		url: "/house/room",
+		url: `/house/${houseId}/room`,
 		method: "GET",
 		headers: {
 			token: localStorage.getItem("token"),

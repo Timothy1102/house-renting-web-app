@@ -13,7 +13,7 @@ export const CreateHouseModal = ({
             numberOfRooms: 8
         }
         await createHouse(payload);
-        showSuccessPopup('Lưu nhà thành công. Tải lại trang để xem kết quả.');
+        showSuccessPopup('Lưu nhà thành công.');
         handleOk();
 	};
 
@@ -40,20 +40,6 @@ export const CreateHouseModal = ({
 				onOk={handleOk}
 				confirmLoading={confirmLoading}
 				onCancel={handleCancel}
-				footer={[
-					// <Button key="back" onClick={handleCancel}>
-					// 	Trở lại
-					// </Button>,
-					// <Button
-					// 	key="submit"
-					// 	type="primary"
-					// 	loading={confirmLoading}
-					// 	onClick={handleOk}
-					// 	className="bg-[#1677ff]"
-					// >
-					// 	Lưu
-					// </Button>,
-				]}
 			>
 				<Form
 					name="basic"

@@ -34,10 +34,15 @@ class HouseController {
      */
     async getRooms(req, res) {
         try {
+            const houseId = req.params.id;
             const user = await User.findByPk(req.user.userId, {include: {model: House, include: Room}});
             // Access the user's rooms
-            const rooms = user.Houses.flatMap((house) => house.Rooms);
-            res.json(rooms);
+            for (const house of user.Houses) {
+                if (house.id == houseId) {
+                    return res.json(house.Rooms);
+                }
+            }
+            res.json({msg: 'Could not find house with that id.'});
         } catch (err) {
             console.error(err.message);
             return res.status(400).send({ status: 400, error: err });

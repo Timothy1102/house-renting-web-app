@@ -14,7 +14,7 @@ export const CreateRoomModal = ({
             houseId: houseId,
         }
         await createRoom(payload);
-        showSuccessPopup('Lưu phòng thành công. Tải lại trang để xem kết quả.');
+        showSuccessPopup('Lưu phòng thành công.');
         handleOk();
 	};
 

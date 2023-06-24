@@ -7,10 +7,13 @@ import { useParams } from 'react-router-dom';
 
 export const HouseDetailPage = () => {
 	const { id } = useParams();
+    const [selectedHouseId, setSelectedHouseId] = useState(id);
+    const [selectedHouseTitle, setSelectedHouseTitle] = useState('');
     const [houses, setHouses] = useState([]);
     const [rooms, setRooms] = useState([]);
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 	const showModal = () => {
 		setOpen(true);
 	};
@@ -20,31 +23,21 @@ export const HouseDetailPage = () => {
 		setOpen(false);
 		setConfirmLoading(false);
 		}, 2000);
+		setRefresh(!refresh);
 	};
 	const handleCancel = () => {
-		console.log('Clicked cancel button');
 		setOpen(false);
 	};
 
-	const handleChange = (value) => {
-		console.log(`selected ${value}`);
+	const handleSelectionChange = (option) => {
+		setSelectedHouseId(option.value);
+		setSelectedHouseTitle(option.label);
 	};
 
     useEffect(() => {
-		// get all houses belong to user
-		async function getHouse() {
-			const housesOfUser = await getHouseOfUser();
-			const rooms = await getRoomsOfHouse();
-
-            const housesData = [];
-            for (let i = 0; i < housesOfUser.length; i++) {
-                housesData.push({
-                    value: housesOfUser[i]?.title,
-                    label: housesOfUser[i]?.title,
-                })
-            }
-            setHouses(housesData);
-
+		// get all rooms belong to a house (call when selectedHouseId is changed)
+		async function getRoomData() {
+			const rooms = await getRoomsOfHouse(selectedHouseId);
 			const roomsData = [];
 			for (let i = 0; i < rooms.length; i++) {
 				roomsData.push({
@@ -62,7 +55,28 @@ export const HouseDetailPage = () => {
 			setRooms(roomsData);
 		}
 
-		getHouse();
+		getRoomData();
+	}, [selectedHouseId, refresh]);
+
+	useEffect(() => {
+		// get all houses belong to user (only call once when component is mounted)
+		async function getHouseData() {
+			const housesOfUser = await getHouseOfUser();
+            const housesData = [];
+            for (let i = 0; i < housesOfUser.length; i++) {
+                housesData.push({
+                    value: housesOfUser[i]?.id,
+                    label: housesOfUser[i]?.title,
+                })
+
+				if (housesOfUser[i]?.id == id) {
+					setSelectedHouseTitle(housesOfUser[i].title);
+				}
+            }
+            setHouses(housesData);
+		}
+
+		getHouseData();
 	}, []);
 
 	const [messageApi, contextHolder] = message.useMessage();
@@ -75,7 +89,8 @@ export const HouseDetailPage = () => {
 
 	const deleteRoomById = async (roomId) => {
 		await deleteRoom(roomId);
-		showSuccessPopup('Xoá phòng thành công. Tải lại trang để xem kết quả.');
+		showSuccessPopup('Xoá phòng thành công.');
+		setRefresh(!refresh);
 	};
 	
 	const columns = [
@@ -142,11 +157,12 @@ export const HouseDetailPage = () => {
 
 					<div className="flex justify-between bg-slate-200 p-5 m-5 rounded-[4px]">
 						<Select
-							defaultValue={'nhaf'}
+							labelInValue
+							value={selectedHouseTitle}
 							style={{
 								width: 320,
 							}}
-							onChange={handleChange}
+							onChange={handleSelectionChange}
 							options={houses}
 						/>
 						<Button type="primary" className="bg-[#1677ff]" onClick={showModal}>
@@ -159,7 +175,7 @@ export const HouseDetailPage = () => {
 						handleOk={handleOk}
 						handleCancel={handleCancel}
 						confirmLoading={confirmLoading}
-						houseId={id}
+						houseId={selectedHouseId}
 					/>
 
 					{rooms.map((room, index) => {

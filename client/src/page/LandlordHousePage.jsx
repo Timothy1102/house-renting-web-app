@@ -21,6 +21,7 @@ export const LandlordHousePage = () => {
 	const [houses, setHouses] = useState([]);
 	const [open, setOpen] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 	const showModal = () => {
 		setOpen(true);
 	};
@@ -30,9 +31,9 @@ export const LandlordHousePage = () => {
 		setOpen(false);
 		setConfirmLoading(false);
 		}, 2000);
+		setRefresh(!refresh);
 	};
 	const handleCancel = () => {
-		console.log('Clicked cancel button');
 		setOpen(false);
 	};
 
@@ -147,7 +148,7 @@ export const LandlordHousePage = () => {
 		}
 
 		getHouse();
-	}, []);
+	}, [refresh]);
 
 	return (
 		<BaseLayout
