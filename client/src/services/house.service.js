@@ -25,6 +25,17 @@ export const createHouse = async (payload) => {
     console.log("🚀 ~ file: house.service.js:22 ~ createHouse ~ response:", response)
 }
 
+export const deleteHouse = async (id) => {
+	const response = await axiosService({
+		url: `/house/${id}`,
+		method: "DELETE",
+		headers: {
+			token: localStorage.getItem("token"),
+		},
+	});
+	console.log("🚀 ~ file: house.service.js:36 ~ deleteHouse ~ response:", response)
+}
+
 // get list of houses for user
 export const getRoomsOfHouse = async (houseId) => { // TODO: pass houseId as param
 	const rooms = await axiosService({

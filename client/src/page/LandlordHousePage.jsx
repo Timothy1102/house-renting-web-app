@@ -1,6 +1,6 @@
 import BaseLayout from "../layout/BaseLayout";
 import { Table, Button } from "antd";
-import { getHouseOfUser } from "../services/house.service";
+import { getHouseOfUser, deleteHouse } from "../services/house.service";
 import { useEffect, useState } from "react";
 import { CreateHouseModal } from '../components/CreateHouseModal';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,11 @@ export const LandlordHousePage = () => {
 	};
 	const handleCancel = () => {
 		setOpen(false);
+	};
+
+	const handleDelete = async (id) => {
+		await deleteHouse(id);
+		setRefresh(!refresh);
 	};
 
 	const columns = [
@@ -54,7 +59,7 @@ export const LandlordHousePage = () => {
 		{
 			title: "Thao tác",
 			key: "operation",
-			render: () => <a className="text-blue-500">Xoá</a>,
+			render: (house) => <Button className="text-blue-500" onClick={() => handleDelete(house.houseId)}>Xoá</Button>,
 		},
 	];
 
@@ -66,6 +71,7 @@ export const LandlordHousePage = () => {
 			for (let i = 0; i < housesOfUser.length; i++) {
 				data.push({
 					key: i.toString(),
+					houseId: housesOfUser[i]?.id,
 					houseName: <Link to={`/house/${housesOfUser[i]?.id}`} className="text-blue-500">{housesOfUser[i]?.title}</Link>,
 					numberOfRooms: housesOfUser[i]?.numberOfRooms,
 					numberOfAvailableRooms: 2,

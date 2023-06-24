@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({User, Room}) {
       // define association here
       this.belongsTo(User, {foreignKey: 'userId'}); // a user can have many houses
-      this.hasMany(Room, {foreignKey: 'houseId'}) // a house can have many rooms
+      this.hasMany(Room, {foreignKey: 'houseId', onDelete: 'CASCADE'}) // a house can have many rooms
     }
   }
   House.init({

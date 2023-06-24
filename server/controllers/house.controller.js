@@ -30,6 +30,21 @@ class HouseController {
     }
 
     /**
+     * Create a new house
+     */
+    async deleteHouse(req, res) {
+        try {
+            const houseId = req.params.id;
+            const house = await House.findByPk(houseId);
+            await house.destroy();
+            res.json({ msg: 'House deleted' });
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send({ status: 400, error: err });
+        }
+    }
+
+    /**
      * Get all rooms that belong to a house
      */
     async getRooms(req, res) {
