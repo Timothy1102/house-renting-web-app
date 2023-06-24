@@ -2,7 +2,7 @@ import BaseLayout from "../layout/BaseLayout";
 import { Table, Button } from "antd";
 import { getHouseOfUser, deleteHouse } from "../services/house.service";
 import { useEffect, useState } from "react";
-import { CreateHouseModal } from '../components/CreateHouseModal';
+import { CreateHouseModal } from '../components/modal/CreateHouseModal';
 import { Link } from 'react-router-dom';
 
 export const LandlordHousePage = () => {

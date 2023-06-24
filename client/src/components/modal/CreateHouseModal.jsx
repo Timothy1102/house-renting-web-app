@@ -1,5 +1,6 @@
-import { Modal, Button, Form, Input, message } from "antd";
-import { createHouse } from '../services/house.service';
+import { Modal, Button, Form, Input, message, Upload } from "antd";
+import { createHouse } from "../../services/house.service";
+import { UploadOutlined } from "@ant-design/icons";
 
 export const CreateHouseModal = ({
 	showModal,
@@ -8,20 +9,21 @@ export const CreateHouseModal = ({
 	confirmLoading,
 }) => {
 	const onFinish = async (values) => {
-        const payload = {
-            ...values,
-            numberOfRooms: 8
-        }
-        await createHouse(payload);
-        showSuccessPopup('Lưu nhà thành công.');
-        handleOk();
+		console.log("🚀 ~ file: CreateHouseModal.jsx:13 ~ onFinish ~ values:", values)
+		const payload = {
+			...values,
+			numberOfRooms: 8,
+		};
+		await createHouse(payload);
+		showSuccessPopup("Lưu nhà thành công.");
+		handleOk();
 	};
 
 	const onFinishFailed = (errorInfo) => {
 		console.log("Failed:", errorInfo);
 	};
 
-    const [messageApi, contextHolder] = message.useMessage();
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const showSuccessPopup = (msg) => {
 		messageApi.open({
@@ -30,9 +32,17 @@ export const CreateHouseModal = ({
 		});
 	};
 
+	const normFile = (e) => {
+		console.log("Upload event:", e);
+		if (Array.isArray(e)) {
+			return e;
+		}
+		return e?.fileList;
+	};
+
 	return (
 		<>
-            {contextHolder}
+			{contextHolder}
 			<Modal
 				title="Thêm nhà"
 				width={1000}
@@ -40,6 +50,7 @@ export const CreateHouseModal = ({
 				onOk={handleOk}
 				confirmLoading={confirmLoading}
 				onCancel={handleCancel}
+				footer={[]}
 			>
 				<Form
 					name="basic"
@@ -86,12 +97,33 @@ export const CreateHouseModal = ({
 					</Form.Item>
 
 					<Form.Item
+						name="upload"
+						label="Tải ảnh"
+						valuePropName="fileList"
+						getValueFromEvent={normFile}
+					>
+						<Upload
+							name="logo"
+							action="/upload.do"
+							listType="picture"
+						>
+							<Button icon={<UploadOutlined />}>
+								Tải ảnh lên
+							</Button>
+						</Upload>
+					</Form.Item>
+
+					<Form.Item
 						wrapperCol={{
 							offset: 8,
 							span: 16,
 						}}
 					>
-						<Button type="primary" htmlType="submit" className="bg-[#1677ff]">
+						<Button
+							type="primary"
+							htmlType="submit"
+							className="bg-[#1677ff]"
+						>
 							Lưu
 						</Button>
 					</Form.Item>

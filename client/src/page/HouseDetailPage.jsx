@@ -2,7 +2,7 @@ import BaseLayout from "../layout/BaseLayout";
 import { Select, Button, Table, Space, Tag, message } from "antd";
 import { getHouseOfUser, getRoomsOfHouse, deleteRoom } from "../services/house.service";
 import { useEffect, useState } from "react";
-import { CreateRoomModal } from '../components/CreateRoomModal';
+import { CreateRoomModal } from '../components/modal/CreateRoomModal';
 import { useParams } from 'react-router-dom';
 
 export const HouseDetailPage = () => {
