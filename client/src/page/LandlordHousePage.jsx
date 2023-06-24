@@ -157,7 +157,7 @@ export const LandlordHousePage = () => {
 						<Button type="primary" className="bg-[#1677ff]" onClick={showModal}>Thêm nhà</Button>
 					</div>
 
-					<CreateHouseModal 
+					<CreateHouseModal
 						showModal={open}
 						handleOk={handleOk}
 						handleCancel={handleCancel}

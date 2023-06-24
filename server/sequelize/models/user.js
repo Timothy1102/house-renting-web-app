@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({House}) {
       // define association here
-      this.hasMany(House, {foreignKey: 'userId'})
+      this.hasMany(House, {foreignKey: 'userId'}) // a user can have many houses
     }
 
     // hide password when returning user to APIs
