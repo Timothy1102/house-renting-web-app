@@ -7,11 +7,12 @@ import {
 	Checkbox,
 	Col,
 	Row,
-	Upload,
 } from "antd";
 import { createRoom } from "../../services/house.service";
 import HOUSE_UTILITIES from "../../provider/house-utilities.provider";
-import { UploadOutlined } from "@ant-design/icons";
+import './modal.css';
+import { useState } from "react";
+import UploadFile from '../input/UploadFile';
 
 export const CreateRoomModal = ({
 	showModal,
@@ -20,7 +21,10 @@ export const CreateRoomModal = ({
 	confirmLoading,
 	houseId,
 }) => {
+	const [description, setDescription] = useState('');
+
 	const onFinish = async (values) => {
+		console.log("🚀 ~ file: CreateRoomModal.jsx:28 ~ onFinish ~ values:", values)
 		const payload = {
 			...values,
 			houseId: houseId,
@@ -62,17 +66,18 @@ export const CreateRoomModal = ({
 				confirmLoading={confirmLoading}
 				onCancel={handleCancel}
 				footer={[]}
+				className="flex justify-center"
 			>
 				<Form
 					name="basic"
 					labelCol={{
-						span: 8,
+						span: 24,
 					}}
 					wrapperCol={{
-						span: 16,
+						span: 24,
 					}}
 					style={{
-						maxWidth: 600,
+						maxWidth: '80%',
 					}}
 					initialValues={{
 						remember: true,
@@ -80,6 +85,7 @@ export const CreateRoomModal = ({
 					onFinish={onFinish}
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
+					layout="vertical"
 				>
 					<Form.Item
 						label="Tiêu đề"
@@ -87,7 +93,7 @@ export const CreateRoomModal = ({
 						rules={[
 							{
 								required: true,
-								message: "Nhập tiêu đề phong tại đây",
+								message: "Nhập tiêu đề phòng tại đây",
 							},
 						]}
 					>
@@ -104,45 +110,86 @@ export const CreateRoomModal = ({
 							},
 						]}
 					>
-						<Input />
+						<Input type="number" step="100000" />
 					</Form.Item>
 
-					<Form.Item
-						label="Diện tích"
-						name="area"
-						rules={[
-							{
-								required: true,
-								message: "Nhập diện tích phòng tại đây",
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
+					<div className="flex justify-center gap-8">
+						<Form.Item
+							label="Tầng"
+							name="floor"
+							rules={[
+								{
+									required: false,
+									message: "Nhập tầng tại đây",
+								},
+							]}
+							className="w-full"
+						>
+							<Input type="number" step="1" />
+						</Form.Item>
+						<Form.Item
+							label="Diện tích (m2)"
+							name="area"
+							rules={[
+								{
+									required: false,
+									message: "Nhập diện tích phòng tại đây",
+								},
+							]}
+							className="w-full"
+						>
+							<Input type="number" step="0.1" />
+						</Form.Item>
+					</div>
+
+					<div className="flex justify-center gap-8">
+						<Form.Item
+							label="Giá điện (VNĐ/kwH)"
+							name="electricPrice"
+							rules={[
+								{
+									required: true,
+									message: "Nhập giá điện tại đây",
+								},
+							]}
+							className="w-full"
+						>
+							<Input type="number" step="0.1" />
+						</Form.Item>
+						<Form.Item
+							label="Giá nước (VNĐ/khối)"
+							name="waterPrice"
+							rules={[
+								{
+									required: true,
+									message: "Nhập giá nước tại đây",
+								},
+							]}
+							className="w-full"
+						>
+							<Input type="number" step="0.1" />
+						</Form.Item>
+					</div>
 
 					<Form.Item
-						label="Giá điện (VNĐ/số điện)"
-						name="electricPrice"
+						label="Mô tả"
+						name="description"
 						rules={[
 							{
-								required: true,
-								message: "Nhập giá điện tại đây",
+								required: false,
+								message: "Nhập mô tả phòng tại đây",
 							},
 						]}
 					>
-						<Input type="number" step="0.1" />
-					</Form.Item>
-					<Form.Item
-						label="Giá nước (VNĐ/số nước)"
-						name="waterPrice"
-						rules={[
-							{
-								required: true,
-								message: "Nhập giá nước tại đây",
-							},
-						]}
-					>
-						<Input type="number" step="0.1" />
+						<Input.TextArea
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+							placeholder="Mô tả"
+							autoSize={{
+								minRows: 3,
+								maxRows: 5,
+							}}
+						/>
 					</Form.Item>
 
 					<Form.Item name="utilities" label="Tiện ích">
@@ -164,20 +211,12 @@ export const CreateRoomModal = ({
 					</Form.Item>
 
 					<Form.Item
-						name="upload"
-						label="Tải ảnh"
+						name="uploads"
+						label="Hình ảnh"
 						valuePropName="fileList"
 						getValueFromEvent={normFile}
 					>
-						<Upload
-							name="logo"
-							action="/upload.do"
-							listType="picture"
-						>
-							<Button icon={<UploadOutlined />}>
-								Tải ảnh lên
-							</Button>
-						</Upload>
+						<UploadFile />
 					</Form.Item>
 
 					<Form.Item

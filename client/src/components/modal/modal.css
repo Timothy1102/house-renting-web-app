@@ -1,0 +1,16 @@
+.ant-modal-body {
+    display: flex;
+    justify-content: center;
+}
+
+.ant-form-item-label {
+    font-weight: 600;
+}
+
+.ant-modal-content {
+    flex-grow: 1;
+}
+
+.ant-form {
+    flex-grow: 1;
+}

@@ -1,6 +1,7 @@
 import { Modal, Button, Form, Input, message, Upload } from "antd";
 import { createHouse } from "../../services/house.service";
-import { UploadOutlined } from "@ant-design/icons";
+import UploadFile from '../input/UploadFile';
+import './modal.css';
 
 export const CreateHouseModal = ({
 	showModal,
@@ -9,7 +10,6 @@ export const CreateHouseModal = ({
 	confirmLoading,
 }) => {
 	const onFinish = async (values) => {
-		console.log("🚀 ~ file: CreateHouseModal.jsx:13 ~ onFinish ~ values:", values)
 		const payload = {
 			...values,
 			numberOfRooms: 8,
@@ -55,13 +55,13 @@ export const CreateHouseModal = ({
 				<Form
 					name="basic"
 					labelCol={{
-						span: 8,
+						span: 24,
 					}}
 					wrapperCol={{
-						span: 16,
+						span: 24,
 					}}
 					style={{
-						maxWidth: 600,
+						maxWidth: '80%',
 					}}
 					initialValues={{
 						remember: true,
@@ -69,6 +69,7 @@ export const CreateHouseModal = ({
 					onFinish={onFinish}
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
+					layout="vertical"
 				>
 					<Form.Item
 						label="Tiêu đề"
@@ -98,19 +99,11 @@ export const CreateHouseModal = ({
 
 					<Form.Item
 						name="upload"
-						label="Tải ảnh"
+						label="Hình ảnh"
 						valuePropName="fileList"
 						getValueFromEvent={normFile}
 					>
-						<Upload
-							name="logo"
-							action="/upload.do"
-							listType="picture"
-						>
-							<Button icon={<UploadOutlined />}>
-								Tải ảnh lên
-							</Button>
-						</Upload>
+						<UploadFile />
 					</Form.Item>
 
 					<Form.Item
