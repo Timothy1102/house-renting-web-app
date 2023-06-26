@@ -24,9 +24,10 @@ export const CreateRoomModal = ({
 	const [description, setDescription] = useState('');
 
 	const onFinish = async (values) => {
-		console.log("🚀 ~ file: CreateRoomModal.jsx:28 ~ onFinish ~ values:", values)
+		const roomImages = fileList.map((file) => file.originFileObj);
 		const payload = {
 			...values,
+			images: roomImages,
 			houseId: houseId,
 		};
 		await createRoom(payload);
@@ -47,13 +48,10 @@ export const CreateRoomModal = ({
 		});
 	};
 
-	const normFile = (e) => {
-		console.log("Upload event:", e);
-		if (Array.isArray(e)) {
-			return e;
-		}
-		return e?.fileList;
-	};
+	const [fileList, setFileList] = useState([]);
+	const handleUploadChange = (newFileList) => {
+		setFileList(newFileList);
+	}
 
 	return (
 		<>
@@ -211,12 +209,10 @@ export const CreateRoomModal = ({
 					</Form.Item>
 
 					<Form.Item
-						name="uploads"
 						label="Hình ảnh"
 						valuePropName="fileList"
-						getValueFromEvent={normFile}
 					>
-						<UploadFile />
+						<UploadFile handleOnchange={handleUploadChange} />
 					</Form.Item>
 
 					<Form.Item

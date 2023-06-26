@@ -69,10 +69,13 @@ class HouseController {
      */
     async createRoom(req, res) {
         try {
-            const room = await Room.create(req.body);
-            const house = await House.findByPk(req.body.houseId);
-            await house.addRoom(room);
-            res.json(room);
+            console.log('===req.body ', req.body);
+            console.log('===req.files: ', req.files);
+            // const room = await Room.create(req.body);
+            // const house = await House.findByPk(req.body.houseId);
+            // await house.addRoom(room);
+            // res.json(room);
+            res.json(req.files);
         } catch (err) {
             console.error(err.message);
             return res.status(400).send({ status: 400, error: err });

@@ -8,7 +8,7 @@ const getBase64 = (file) =>
 		reader.onload = () => resolve(reader.result);
 		reader.onerror = (error) => reject(error);
 	});
-const UploadFile = () => {
+const UploadFile = ({handleOnchange}) => {
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState("");
 	const [previewTitle, setPreviewTitle] = useState("");
@@ -26,7 +26,7 @@ const UploadFile = () => {
 	};
 	const handleChange = ({ fileList: newFileList }) => {
 		setFileList(newFileList);
-		console.log("🚀 ~ file: UploadFile.jsx:28 ~ UploadFile ~ newFileList:", newFileList)
+		handleOnchange(newFileList);
 	}
 	const uploadButton = (
 		<div>
@@ -43,7 +43,7 @@ const UploadFile = () => {
 	return (
 		<>
 			<Upload
-				action="https://www.mocky.io/v2/5cc8019d300000980a055e76" // TODO: replace with real API
+				action={()=>{}} // TODO: replace with real API
 				listType="picture-card"
 				fileList={fileList}
 				onPreview={handlePreview}

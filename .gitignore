@@ -11,3 +11,6 @@ dist/
 
 # Ignore the migration tracking file
 sequelize-meta.json
+
+# Ignore the files that have been uploaded by users
+server/uploads/**/*

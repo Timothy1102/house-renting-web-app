@@ -50,13 +50,24 @@ export const getRoomsOfHouse = async (houseId) => { // TODO: pass houseId as par
 
 // create new room
 export const createRoom = async (payload) => {
+	const formData = new FormData();
+	Object.entries(payload).forEach(([key, value]) => {
+		if (key === "images") {
+			value.forEach((image) => {
+				formData.append("images", image);
+			});
+			return;
+		}
+		formData.append(key, value);
+	});
 	const response = await axiosService({
 		url: "/house/room",
 		method: "POST",
 		headers: {
 			token: localStorage.getItem("token"),
+			'Content-Type': 'multipart/form-data',
 		},
-		data: payload
+		data: formData
 	});
 	console.log("🚀 ~ file: house.service.js:38 ~ createRoom ~ response:", response)
 }
