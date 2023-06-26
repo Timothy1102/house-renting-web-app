@@ -27,6 +27,7 @@ export const CreateRoomModal = ({
 		const roomImages = fileList.map((file) => file.originFileObj);
 		const payload = {
 			...values,
+			utilities: JSON.stringify(values.utilities),
 			images: roomImages,
 			houseId: houseId,
 		};

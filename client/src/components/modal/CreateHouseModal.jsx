@@ -1,6 +1,7 @@
-import { Modal, Button, Form, Input, message, Upload } from "antd";
+import { Modal, Button, Form, Input, message } from "antd";
 import { createHouse } from "../../services/house.service";
 import UploadFile from '../input/UploadFile';
+import { useState } from "react";
 import './modal.css';
 
 export const CreateHouseModal = ({
@@ -10,9 +11,10 @@ export const CreateHouseModal = ({
 	confirmLoading,
 }) => {
 	const onFinish = async (values) => {
+		const roomImages = fileList.map((file) => file.originFileObj);
 		const payload = {
 			...values,
-			numberOfRooms: 8,
+			images: roomImages,
 		};
 		await createHouse(payload);
 		showSuccessPopup("Lưu nhà thành công.");
@@ -32,13 +34,10 @@ export const CreateHouseModal = ({
 		});
 	};
 
-	const normFile = (e) => {
-		console.log("Upload event:", e);
-		if (Array.isArray(e)) {
-			return e;
-		}
-		return e?.fileList;
-	};
+	const [fileList, setFileList] = useState([]);
+	const handleUploadChange = (newFileList) => {
+		setFileList(newFileList);
+	}
 
 	return (
 		<>
@@ -101,9 +100,8 @@ export const CreateHouseModal = ({
 						name="upload"
 						label="Hình ảnh"
 						valuePropName="fileList"
-						getValueFromEvent={normFile}
 					>
-						<UploadFile />
+						<UploadFile handleOnchange={handleUploadChange} />
 					</Form.Item>
 
 					<Form.Item

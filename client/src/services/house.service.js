@@ -14,13 +14,24 @@ export const getHouseOfUser = async () => {
 
 // create new house for user
 export const createHouse = async (payload) => {
+	const formData = new FormData();
+	Object.entries(payload).forEach(([key, value]) => {
+		if (key === "images") {
+			value.forEach((image) => {
+				formData.append("images", image);
+			});
+			return;
+		}
+		formData.append(key, value);
+	});
 	const response = await axiosService({
 		url: "/house",
 		method: "POST",
 		headers: {
 			token: localStorage.getItem("token"),
+			'Content-Type': 'multipart/form-data',
 		},
-		data: payload
+		data: formData
 	});
     console.log("🚀 ~ file: house.service.js:22 ~ createHouse ~ response:", response)
 }

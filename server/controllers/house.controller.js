@@ -19,7 +19,13 @@ class HouseController {
      */
     async createHouse(req, res) {
         try {
-            const house = await House.create(req.body);
+            const houseImagePaths = req.files.map(file => file.path);
+            const houseData = {
+                title: req.body.title,
+                address: req.body.address,
+                images: houseImagePaths,
+            }
+            const house = await House.create(houseData);
             const user = await User.findByPk(req.user.userId);
             await user.addHouse(house);
             res.json(house);
@@ -69,13 +75,23 @@ class HouseController {
      */
     async createRoom(req, res) {
         try {
-            console.log('===req.body ', req.body);
-            console.log('===req.files: ', req.files);
-            // const room = await Room.create(req.body);
-            // const house = await House.findByPk(req.body.houseId);
-            // await house.addRoom(room);
-            // res.json(room);
-            res.json(req.files);
+            const houseId = req.body.houseId;
+            const roomImagePaths = req.files.map(file => file.path);
+            const roomData = {
+                title: req.body.title,
+                price: req.body.price,
+                floor: req.body.floor,
+                area: req.body.area,
+                electricPrice: req.body.electricPrice,
+                waterPrice: req.body.waterPrice,
+                description: req.body.description,
+                utilities: JSON.parse(req.body.utilities),
+                images: roomImagePaths,
+            }
+            const room = await Room.create(roomData);
+            const house = await House.findByPk(houseId);
+            await house.addRoom(room);
+            res.json(room);
         } catch (err) {
             console.error(err.message);
             return res.status(400).send({ status: 400, error: err });
