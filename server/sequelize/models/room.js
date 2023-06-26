@@ -29,9 +29,35 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
     },
+    floor: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+    },
     area: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.FLOAT,
+    },
+    electricPrice: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+    },
+    waterPrice: {
+        allowNull: true,
+        type: DataTypes.FLOAT,
+    },
+    description: {
+        allowNull: true,
+        type: DataTypes.TEXT,
+    },
+    utilities: {
+        allowNull: true,
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: [],
+    },
+    images: {
+        allowNull: true,
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: [],
     },
     houseId: {
       allowNull: true,

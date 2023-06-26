@@ -30,9 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    numberOfRooms: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
+    images: {
+      allowNull: true,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     },
     userId: {
       allowNull: true,
