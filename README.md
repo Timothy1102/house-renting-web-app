@@ -13,3 +13,7 @@ Follow these steps
 4. migrate database: `cd server/sequelize && npx sequelize-cli db:migrate`
 5. `cd server && yarn install && yarn start` to start the server
 6. `cd  frontend && yarn install && yarn dev` to start the frontend
+
+<!-- test pr agent -->
+
+
